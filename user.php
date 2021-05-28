@@ -57,12 +57,12 @@ echo $user->age . '<br />';
 echo $user->getLastname() . '<br />';
 echo $user->getEmail() . '<br />';
 echo $user->getFirstname() . '<br />';
-echo $user->getAge();
+echo $user->getAge() . '<br />';
 
 $user->setLastname('Иванов') . '<br />';
 $user->setEmail('qwer@mail.ru') . '<br />';
 $user->setFirstname('Виталий') . '<br />';
-$user->setAge(58);
+$user->setAge(58) . '<br />';
 
 echo $user->getLastname() . '<br />';
 echo $user->getEmail() . '<br />';
