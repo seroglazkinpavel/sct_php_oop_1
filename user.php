@@ -1,69 +1,50 @@
 <?php
 
-class User
+class Point
 {
-    private $lastname;
-    private $email;
-    private $firstname;
-    private $age;
-    public static $counter = 0;
+    public $x;
+    public $y;
 
-    public function __construct($lastname, $email, $firstname, $age){
-        if (!empty($lastname)) $this->lastname = $lastname;
-        if (!empty($email)) $this->email = $email;
-        if (!empty($firstname)) $this->firstname = $firstname;
-        if (!empty($age)) $this->age = $age;
-        self::$counter++;
+    public function __construct($x, $y)
+    {
+        $this->x = $x;
+        $this->y = $y;
     }
 
-    public static function getCounter()
+    public function __toString()
     {
-        return self::$counter;
+        return "Точка с координатами ({$this->x}, {$this->y})";
     }
 
-    public function getLastname()
+    public function __get($z)
     {
-        return $this->lastname;
+        return  'Класс Point работает только в двумерном пространстве';
     }
 
-    public function setLastname($Lastname)
+    public function __set($name, $value)
     {
-        $this->lastname = $Lastname;
+        $this->name = $value;
     }
 
-    public function getEmail()
+    public function __call($x, $y)
     {
-        return $this->email;
-    }
-
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    public function getFirstname()
-    {
-        return $this->firstname;
-    }
-
-    public function setFirstname($firstname)
-    {
-        $this->firstname = $firstname;
-    }
-
-    public function getAge()
-    {
-        return $this->age;
-    }
-
-    public function setAge($age)
-    {
-        $this->age = $age;
+        return "Точка с координатами ({$this->x}, {$this->y})";
     }
 }
 
-$user = new User('Иванов', 'abc1@mail.ru', 'Виктор', 32);
-$user1 = new User('Иванов', 'abc1@mail.ru', 'Виктор', 32);
-$user2 = new User('Иванов', 'abc1@mail.ru', 'Виктор', 32);
+$point = new Point(15, 32);
+$point1 = new Point(14, 2);
+$point2 = new Point(6, 3);
 
-echo $user::getCounter();
+echo $point.'<br>';
+echo $point1.'<br>';
+echo $point2.'<br>';
+
+echo $point->z .'<br>';
+echo $point->z = 7 .'<br>';
+echo $point->setZ(67, 34) .'<br>';
+
+$point3 = clone $point2;
+$point2->x = 8 .'<br>';
+echo $point3->x .'<br>';
+echo $point2->x;
