@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 class Point
 {
     public $x;
@@ -11,40 +13,52 @@ class Point
         $this->y = $y;
     }
 
-    public function __toString()
+    public function __sleep()
     {
-        return "Точка с координатами ({$this->x}, {$this->y})";
+        return ['x', 'y'];
     }
 
-    public function __get($z)
+    public function __wakeup()
     {
-        return  'Класс Point работает только в двумерном пространстве';
-    }
-
-    public function __set($name, $value)
-    {
-        $this->name = $value;
-    }
-
-    public function __call($x, $y)
-    {
-        return "Точка с координатами ({$this->x}, {$this->y})";
+        $this->x;
+        $this->y;
     }
 }
 
-$point = new Point(15, 32);
-$point1 = new Point(14, 2);
-$point2 = new Point(6, 3);
+$ser = '';
+if (isset($_POST['myform'])) {
+    $x = $_POST['x'] ?? false;
+    $y = $_POST['y'] ?? false;
+    if ($x !== false && $y !== false && is_numeric($x) && is_numeric($y)) {
+        $point = new Point($x, $y);
+        $str = serialize($point);
+        $_SESSION['point'] = $str;
+        $ser = 'Объект сохранен.';
+    } else $ser = 'Введите числа.';
+} elseif (!empty($_POST['download']) && !empty($_SESSION['point'])) {
+    $unser = unserialize($_SESSION['point']);
+    $ser = 'Поля заполнены: где x = ' . $unser->x . ' и y = ' . $unser->y;
+    unset($_SESSION['point']);
+}
+//else $ser = 'Объект не сохранен.';
 
-echo $point.'<br>';
-echo $point1.'<br>';
-echo $point2.'<br>';
-
-echo $point->z .'<br>';
-echo $point->z = 7 .'<br>';
-echo $point->setZ(67, 34) .'<br>';
-
-$point3 = clone $point2;
-$point2->x = 8 .'<br>';
-echo $point3->x .'<br>';
-echo $point2->x;
+?>
+<?php if ($ser !== '') : ?>
+    <p><?= $ser ?></p>
+<?php endif ?>
+<form name="myform" action="<?= $_SERVER['REQUEST_URI'] ?>" method="post" style="margin:20px;">
+    <div>
+        <label for="number">X:</label>
+        <input id="number" type="text" name="x" value="<?= $x ?>" style="margin-bottom:5px;">
+    </div>
+    <div>
+        <label for="figure">Y:</label>
+        <input id="figure" type="text" name="y" value="<?= $y ?>">
+    </div>
+    <div>
+        <input type="submit" name="myform" value="Сохранить" style="margin:5px 20px;">
+    </div>
+    <div>
+        <input type="submit" name="download" value="Загрузить" style="margin-left:20px;">
+    </div>
+</form>
