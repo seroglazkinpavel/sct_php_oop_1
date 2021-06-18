@@ -39,8 +39,7 @@ if (isset($_POST['myform'])) {
     $unser = unserialize($_SESSION['point']);
     $ser = 'Поля заполнены: где x = ' . $unser->x . ' и y = ' . $unser->y;
     unset($_SESSION['point']);
-}
-//else $ser = 'Объект не сохранен.';
+} elseif (!empty($_POST['download']) && empty($_SESSION['point'])) $ser = 'Объект не сохранен.';
 
 ?>
 <?php if ($ser !== '') : ?>
