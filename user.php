@@ -1,63 +1,30 @@
 <?php
 
-session_start();
-
-class Point
+abstract class Vehicle
 {
-    public $x;
-    public $y;
 
-    public function __construct($x, $y)
-    {
-        $this->x = $x;
-        $this->y = $y;
-    }
+    abstract public function getName($weight, $year_of_issue);
 
-    public function __sleep()
-    {
-        return ['x', 'y'];
-    }
-
-    public function __wakeup()
-    {
-        $this->x;
-        $this->y;
-    }
 }
 
-$ser = '';
-if (isset($_POST['myform'])) {
-    $x = $_POST['x'] ?? false;
-    $y = $_POST['y'] ?? false;
-    if ($x !== false && $y !== false && is_numeric($x) && is_numeric($y)) {
-        $point = new Point($x, $y);
-        $str = serialize($point);
-        $_SESSION['point'] = $str;
-        $ser = 'Объект сохранен.';
-    } else $ser = 'Введите числа.';
-} elseif (!empty($_POST['download']) && !empty($_SESSION['point'])) {
-    $unser = unserialize($_SESSION['point']);
-    $ser = 'Поля заполнены: где x = ' . $unser->x . ' и y = ' . $unser->y;
-    unset($_SESSION['point']);
-} elseif (!empty($_POST['download']) && empty($_SESSION['point'])) $ser = 'Объект не сохранен.';
+class Bus extends Vehicle
+{
 
-?>
-<?php if ($ser !== '') : ?>
-    <p><?= $ser ?></p>
-<?php endif ?>
-<form name="myform" action="<?= $_SERVER['REQUEST_URI'] ?>" method="post" style="margin:20px;">
-    <div>
-        <label for="number">X:</label>
-        <input id="number" type="text" name="x" value="<?= $x ?>" style="margin-bottom:5px;">
-    </div>
-    <div>
-        <label for="figure">Y:</label>
-        <input id="figure" type="text" name="y" value="<?= $y ?>">
-    </div>
-    <div>
-        <input type="submit" name="myform" value="Сохранить" style="margin:5px 20px;">
-    </div>
-    <div>
-        <input type="submit" name="download" value="Загрузить" style="margin-left:20px;">
-    </div>
-</form>
+    public $year_of_issue;
+    public $weight;
+
+    public function getName($weight, $year_of_issue)
+    {
+        $this->weight = $weight;
+        $this->year_of_issue = $year_of_issue;
+        echo 'Автобус весом '.$weight. ' кг и '.$year_of_issue.' года выпуска';
+    }
+
+}
+
+$bus = new Bus();
+/*Если не реализовать абстрактный метод в дочерних классах то возникает ошибка (Fatal error: Class Bus contains 1 abstract
+method and must therefore be declared abstract or implement the remaining methods (Vehicle::getName)
+in C:\OpenServer\domains\oop\user.php on line 16)*/
+$bus = new Bus();
+$bus->getName(700, 2002);
