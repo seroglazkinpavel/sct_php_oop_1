@@ -24,7 +24,7 @@ class Bus extends Vehicle
     }
 }
 
-$bus = new Bus();
+$bus = new Bus(700, 2002);
 /*Если не реализовать абстрактный метод в дочерних классах то возникает ошибка (Fatal error: Class Bus contains 1 abstract
 method and must therefore be declared abstract or implement the remaining methods (Vehicle::getName)
 in C:\OpenServer\domains\oop\user.php on line 16)*/
