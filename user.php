@@ -1,31 +1,33 @@
 <?php
 
-abstract class Vehicle
+interface СanMove
 {
-
-    abstract public function getName();
-
+    public function move();
 }
 
-class Bus extends Vehicle
+interface СanFly
 {
-    public $year_of_issue;
-    public $weight;
+    public function fly();
+}
 
-    public function __construct($weight, $year_of_issue)
+class Car implements СanMove
+{
+    public function move()
     {
-        $this->weight = $weight;
-        $this->year_of_issue = $year_of_issue; 
-    }
-
-    public function getName()
-    {
-        echo 'Автобус весом '.$this->weight. ' кг и '.$this->year_of_issue.' года выпуска';
+        echo 'Движение автомобиля';
     }
 }
 
-$bus = new Bus();
-/*Если не реализовать абстрактный метод в дочерних классах то возникает ошибка (Fatal error: Class Bus contains 1 abstract
-method and must therefore be declared abstract or implement the remaining methods (Vehicle::getName)
-in C:\OpenServer\domains\oop\user.php on line 16)*/
-$bus->getName();
+class Aircraft implements СanFly
+{
+    public function fly()
+    {
+        echo 'Полёт самолёта';
+    }
+}
+
+$car = new Car();
+$car->move();
+echo '<br>';
+$aircraft = new Aircraft();
+$aircraft->fly();
