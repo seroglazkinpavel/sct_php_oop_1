@@ -1,16 +1,6 @@
 <?php
 
-interface СanMove
-{
-    public function move();
-}
-
-interface СanFly
-{
-    public function fly();
-}
-
-class Car implements СanMove
+trait СanMove
 {
     public function move()
     {
@@ -18,12 +8,22 @@ class Car implements СanMove
     }
 }
 
-class Aircraft implements СanFly
+trait СanFly
 {
     public function fly()
     {
         echo 'Полёт самолёта';
     }
+}
+
+class Car
+{
+    use СanMove;
+}
+
+class Aircraft
+{
+    use СanFly;
 }
 
 $car = new Car();
