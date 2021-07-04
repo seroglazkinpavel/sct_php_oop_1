@@ -1,30 +1,8 @@
 <?php
-
-trait СanMove
-{
-    public function move()
-    {
-        echo 'Движение автомобиля';
-    }
-}
-
-trait СanFly
-{
-    public function fly()
-    {
-        echo 'Полёт самолёта';
-    }
-}
-
-class Car
-{
-    use СanMove;
-}
-
-class Aircraft
-{
-    use СanFly;
-}
+use ru\car\Car;
+use ru\air\Aircraft;
+require_once 'Car.php';
+require_once 'Aircraft.php';
 
 $car = new Car();
 $car->move();
