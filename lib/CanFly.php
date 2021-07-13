@@ -1,8 +1,8 @@
 <?php
 
-namespace ru\plane;
+namespace lib;
 
-trait СanFly
+trait CanFly
 {
     public function fly()
     {

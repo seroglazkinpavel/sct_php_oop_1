@@ -1,8 +1,8 @@
 <?php
 
-namespace ru\mysite;
+namespace lib;
 
-trait СanMove
+trait CanMove
 {
     public function move()
     {
