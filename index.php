@@ -1,5 +1,20 @@
 <?php
 
+class  EmptyException extends Exception
+{
+
+}
+
+class  LongException extends Exception
+{
+
+}
+
+class   InvalidException extends Exception
+{
+
+}
+
 class  Valid
 {
 
@@ -7,17 +22,17 @@ class  Valid
     {
 
         if ($email == '') {
-            throw new Exception('E-mail не указан');
+            throw new EmptyException('E-mail не указан');
         } elseif (mb_strlen($email) > 255) {
-            throw new Exception('Слишком длинный e-mail');
+            throw new LongException('Слишком длинный e-mail');
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new Exception('E-mail указан неправильно');
+            throw new InvalidException('E-mail указан неправильно');
         } else return $email;
     }
 }
 
 try {
-    echo Valid::validEmail('eeeeeee');
+    echo Valid::validEmail('');
 } catch (Exception $e) {
     echo '<br />Возникла ошибка: ' . $e->getMessage();
 }
