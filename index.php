@@ -1,35 +1,108 @@
 <?php
-$date_1 = new DateTime();
-$date_2 = new DateTime();
 
-// Генерация случайных дат через mt_rand. Если не так, то подскажите, пожалуйста, как будет правильнее
+use lib\ValidateName;
+use lib\ValidateEmail;
+use lib\ValidateTelephone;
+use lib\ValidateBirth;
+use lib\ValidateSnils;
 
-$date_1->setDate(mt_rand(2000, 2030), mt_rand(1, 12), mt_rand(1, 30)); //генерируем первую случайную дату
-$date_1->setTime(mt_rand(0, 23), mt_rand(0, 59), mt_rand(0, 59));
+set_include_path(get_include_path() . PATH_SEPARATOR . 'lib');
+spl_autoload_extensions('.php');
+spl_autoload_register();
 
-$date_2->setDate(mt_rand(2000, 2030), mt_rand(1, 12), mt_rand(1, 30)); //генерируем вторую
-$date_2->setTime(mt_rand(0, 23), mt_rand(0, 59), mt_rand(0, 59));
 
-//Вывод двух получившихся дат (Не обязательно, но для наглядности добавил)
+// если форма заполнена
+if (!empty($_POST)) {
 
-echo $date_1->format('d.m.Y H.i.s') . '<br>'; //Первая
-echo $date_2->format('d.m.Y H.i.s'); //Вторая
+    // создаем классы-валидаторы форм
+    $validator = new ValidateName($_POST);
+    $validator1 = new ValidateEmail($_POST);
+    $validator2 = new ValidateTelephone($_POST);
+    $validator3 = new ValidateBirth($_POST);
+    $validator4 = new ValidateSnils($_POST);
 
-echo '<br>';
+    // проверяем на ошибки
+    $err = $validator->validate();
+    $err1 = $validator1->validate();
+    $err2 = $validator2->validate();
+    $err3 = $validator3->validate();
+    $err4 = $validator4->validate();
 
-$interval = $date_1->diff($date_2); //Находим разницу между двумя датами
-echo $interval->d . '<br>'; // Разница в днях (Подскажите если есть более удобный способ вывода для данной ситуации)
-echo $interval->h . '<br>'; // Разница в часах
-echo $interval->i . '<br>'; // Разница минутах
-echo $interval->s . '<br>'; // Разница в секундах
+    // объединяем массив в строку для передачи обратно на форму логина
+    $errors1 = join(',', $err);
+    $errors2 = join(',', $err1);
+    $errors3 = join(',', $err2);
+    $errors4 = join(',', $err3);
+    $errors5 = join(',', $err4);
 
-$interval_2 = new DateInterval('P1D'); //Создаём интервал в 1 день
-//И тут, если я правильно понял, нужно вывести даты с интервалом в 1 час от меньшей до большей дат.(Поправьте если неправильно). Но мы ведь не знаем какая дата получится больше $date_1 или $date_2.
-$period = new DatePeriod($date_1, $interval_2, $interval->d); //Получилось так, что я к первой дате с интервалом в 1 день я делаю шаги, равные количеству дней из разницы 2-х дат , но это что-то не то.
-foreach ($period as $dt) { //вывожу каждый шаг через цикл
-    echo $dt->format('d.m.Y H:i:s') . '<br>';
+    // из строк создаем массив используя разделитель
+    $errors = explode(',', "$errors1,$errors2,$errors3,$errors4,$errors5");
+    //echo'<pre>'.print_r($errors,true).'</pre><br>';
+    //die;
+    if (empty($errors))
+
+        header("Location: /");
 }
 
-/*. Чем полезен класс DateInterval?
-Механизм вычитания из одной даты другую дату, объект DateInterval, упрощает логику скрипта. Можно также прибавлять к текущей 
-дате заданный интервал.*/
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Вход на сайт</title>
+		<style>
+			body {
+				background: #f0f0f0;
+			}
+	
+			form {
+				margin: 100px auto;
+				text-align: center;
+				border: 1px solid #dee;
+				padding: 10px;
+				width: 300px;
+				background: #fff;
+			}
+	
+			label, input[type="submit"] {
+				display: block;
+				margin: 5px;
+			}
+	
+			input[type="submit"] {
+				margin: 10px auto;
+			}
+	
+			.form-error {
+				padding: 5px;
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<form action="" method="post">
+			<h3>Вход на сайт</h3>
+			<?php if (isset($errors)): ?>
+				<?php foreach ($errors as $error): ?>
+					<p class="form-error"><?= $error ?></p>
+				<?php endforeach ?>
+			<?php else : ?>
+				<p class="form">Bы успешно зарегестрировались!</p>
+			<?php endif ?>
+			<label for="name">Имя</label>
+			<input type="text" name="name" id="name">
+			<label for="email">Email</label>
+			<input type="text" name="email" id="email">
+			<label for="telephone">Телефон</label>
+			<input type="text" name="telephone" id="telephone">
+			<label for="date_of_birth">Дата рождения ( Формат DD.MM.YYYY )</label>
+			<input type="text" name="date_of_birth" id="date_of_birth">
+			<label for="SNILS">СНИЛС</label>
+			<input type="text" name="SNILS" id="SNILS">
+			<input type="submit" value="Вход" name="enter">
+		</form>
+	</body>
+</html>
