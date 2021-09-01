@@ -1,73 +1,63 @@
 <?php
 
-/*abstract class Validator {
-	
-	const CODE_UNKNOWN = "UNKNOWN_ERROR";
-	
-	protected $data; // данные (полученные от пользователя) которые будут проверяться перед отправкой
-	private $errors = array(); // массив ошибок, найденные у данного значения $data
-	
-	public function __construct($data) {
-		$this->data = $data;
-		$this->validate();
-	}
-	
-	abstract protected function validate(); // необходимо реализовать в дочерних классах
-	
-	// возвращает массив ошибок
-	public function getErrors() {
-		return $this->errors;
-	}
-	
-	public function isValid() {
-		return count($this->errors) == 0;
-	}
-	
-	// добавление кода ошибок метод используется в нутри метода validate()
-	protected function setError($code) {
-		$this->errors[] = $code;
-	}
-	
-	// указывает на присутствие кавычек (если они есть указываем true, иначе false)
-	protected function isContainQuotes($string) {
-		$array = array("\"", "'", "`", "&quot;", "&apos;");
-		foreach ($array as $value) {
-			if (strpos($string, $value) !== false) return true;
-		}
-		return false;
-	}
-	
-}*/
 namespace lib;
 
-abstract class Validator
+class Validator
 {
     private $errors = [];
-     
+
     /**
-    *
-    * Проверяет значения на соответствие условию,
-    * если условия нарушаются, помещает в массив $errors
-    * сообщение об ошибке
-    */
-    abstract function validate() : array;
-      
-    // добавляет сообщение об ошибке в массив
-    public function addError($message) {
-        $this -> errors[] = $message;
+     *
+     * Проверяет значения на соответствие условию,
+     * если условия нарушаются, помещает в массив $errors
+     * сообщение об ошибке
+     */
+    public function validate(): array
+    {
+        return $this->getErrors();
     }
 
-    // влзвращает список всех найденных ошибок
-    public function getErrors() {
-        return $this -> errors;
+    //Проверка на пустоту поля
+    public function checkingForEmptiness($name, $email, $telephone, $date_of_birth, $SNILS)
+    {
+        if ($name == '' || $email == '' || $telephone == '' || $date_of_birth == '' || $SNILS == '') {
+            $_SESSION['mistakes'] = 'Заполните пропущенные поля';
+            header("Location: index.php");
+            exit;
+            return $_SESSION['mistakes'];
+        }
     }
-	
-	// указывает на присутствие кавычек (если они есть указываем true, иначе false)
-	protected function isContainQuotes($string) {
-		$array = array("\"", "'", "`", "&quot;", "&apos;");
-		foreach ($array as $value) {
-			if(strpos($string, $value) !== false) return true;
-		}
-		return false;
-	}
+
+    // добавляет сообщение об ошибке в массив
+    public function addError($message)
+    {
+        $this->errors[] = $message;
+    }
+
+    // возвращает список всех найденных ошибок
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    /*
+    * проверяем на ошибки
+    * объединяем массив в строку для передачи обратно на форму
+     */
+    public function check()
+    {
+        $errors = $this->validate();
+        $errors = join(',', $errors);
+        return $errors;
+    }
+
+    // указывает на присутствие кавычек (если они есть указываем true, иначе false)
+    protected function isContainQuotes($string)
+    {
+        $array = array("\"", "'", "`", "&quot;", "&apos;");
+        foreach ($array as $value) {
+            if (strpos($string, $value) !== false) return true;
+        }
+        return false;
+    }
 }

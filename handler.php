@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+use lib\Validator;
 use lib\ValidateName;
 use lib\ValidateEmail;
 use lib\ValidateTelephone;
@@ -14,37 +15,27 @@ spl_autoload_register();
 
 // если форма заполнена
 if (isset($_POST['enter'])) {
-    $_SESSION['$name'] = htmlspecialchars(trim($_POST['name'] ?? false));
-    $_SESSION['$email'] = htmlspecialchars(trim($_POST['email'] ?? false));
-    $_SESSION['$telephone'] = htmlspecialchars(trim($_POST['telephone'] ?? false));
-    $_SESSION['$date_of_birth'] = htmlspecialchars(trim($_POST['date_of_birth'] ?? false));
-    $_SESSION['$SNILS'] = htmlspecialchars(trim($_POST['SNILS'] ?? false));
-    if ($_SESSION['$name'] == '' || $_SESSION['$email'] == '' || $_SESSION['$telephone'] == '' || $_SESSION['$date_of_birth'] == '' || $_SESSION['$SNILS'] == '') {
-        $_SESSION['mistakes'] = 'Заполните пропущенные поля';
-        header("Location: index.php");
-        exit;
-    }
+    $name = htmlspecialchars(trim($_POST['name'] ?? false));
+    $email = htmlspecialchars(trim($_POST['email'] ?? false));
+    $telephone = htmlspecialchars(trim($_POST['telephone'] ?? false));
+    $date_of_birth = htmlspecialchars(trim($_POST['date_of_birth'] ?? false));
+    $SNILS = htmlspecialchars(trim($_POST['SNILS'] ?? false));
+    $validator = new Validator();
+    $validator->checkingForEmptiness($name, $email, $telephone, $date_of_birth, $SNILS);
 
     // создаем классы-валидаторы форм
-    $validator = new ValidateName($_POST);
-    $validator1 = new ValidateEmail($_POST);
-    $validator2 = new ValidateTelephone($_POST);
-    $validator3 = new ValidateBirth($_POST);
-    $validator4 = new ValidateSnils($_POST);
+    $name = new ValidateName($_POST);
+    $email = new ValidateEmail($_POST);
+    $telephone = new ValidateTelephone($_POST);
+    $birth = new ValidateBirth($_POST);
+    $snils = new ValidateSnils($_POST);
 
-    // проверяем на ошибки
-    $err = $validator->validate();
-    $err1 = $validator1->validate();
-    $err2 = $validator2->validate();
-    $err3 = $validator3->validate();
-    $err4 = $validator4->validate();
-
-    // объединяем массив в строку для передачи обратно на форму логина
-    $errors1 = join(',', $err);
-    $errors2 = join(',', $err1);
-    $errors3 = join(',', $err2);
-    $errors4 = join(',', $err3);
-    $errors5 = join(',', $err4);
+    // объединяем массив в строку для передачи обратно на форму
+    $errors1 = $name->check();
+    $errors2 = $email->check();
+    $errors3 = $telephone->check();
+    $errors4 = $birth->check();
+    $errors5 = $snils->check();
 
     // из строк создаем массив используя разделитель
     $errors = explode(',', "$errors1,$errors2,$errors3,$errors4,$errors5");
