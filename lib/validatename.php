@@ -25,7 +25,8 @@ class ValidateName extends Validator
 
         if (mb_strlen($req['name']) == 0) $this->addError(self::CODE_EMPTY);
         elseif ($this->isContainQuotes($req['name'])) $this->addError(self::CODE_INVALID);// если строка содержит кавычки мы ошибку ставим и наобарот
-        elseif (!preg_match("/^([a-zA-Z' -]|[а-яА-ЯЁёІіЇїҐґЄє' -])$/u", $req['name'])) $this->addError(self::CODE_INVALID);
+        elseif (!preg_match("/^([a-zA-Z' -]|[а-яА-ЯЁёІіЇїҐґЄє' -])*$/", $req['name'])) $this->addError(self::CODE_INVALID);
+
         else {
             $nameLen = mb_strlen($req["name"]);
             if ($nameLen < self::CODE_MIN or $nameLen > self::CODE_MAX) {

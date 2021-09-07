@@ -45,10 +45,7 @@ session_start();
         <p style="color:red;"><b>Заполните пропущенные поля!</b></p>
         <?php unset ($_SESSION['mistakes']); ?>
     <?php endif ?>
-    <?php if (isset($_SESSION['user'])): ?>
-        <p style="color:green;"><b>Вы успешно прошли регистрацию!</b></p>
-        <?php unset ($_SESSION['user']); ?>
-    <?php endif ?>
+
     <?php if (isset($_SESSION['errors'])): ?>
         <?php foreach ($_SESSION['errors'] as $error): ?>
             <p class="form-error"><?= $error ?></p>
@@ -56,17 +53,14 @@ session_start();
         <?php unset ($_SESSION['errors']); ?>
     <?php endif ?>
     <label for="name">Имя</label>
-    <input type="text" name="name" id="name" value="<?php if (isset($_SESSION['name'])) echo $_SESSION['name']; ?>">
+    <input type="text" name="name" id="name"
+           value="<?php if (isset($_SESSION['form']['name'])) echo $_SESSION['form']['name']; ?>">
     <label for="email">Email</label>
-    <input type="text" name="email" id="email" value="<?php if (isset($_SESSION['email'])) echo $_SESSION['email'] ?>">
+    <input type="text" name="email" id="email"
+           value="<?php if (isset($_SESSION['form']['email'])) echo $_SESSION['form']['email'] ?>">
     <label for="telephone">Телефон</label>
     <input type="text" name="telephone" id="telephone"
-           value="<?php if (isset($_SESSION['telephone'])) $_SESSION['telephone'] ?>">
-    <label for="date_of_birth">Дата рождения ( Формат DD.MM.YYYY )</label>
-    <input type="text" name="date_of_birth" id="date_of_birth"
-           value="<?php if (isset($_SESSION['date_of_birth'])) $_SESSION['date_of_birth'] ?>">
-    <label for="SNILS">СНИЛС</label>
-    <input type="text" name="SNILS" id="SNILS" value="<?php if (isset($_SESSION['SNILS'])) $_SESSION['SNILS'] ?>">
+           value="<?php if (isset($_SESSION['form']['telephone'])) echo $_SESSION['form']['telephone'] ?>">
     <input type="submit" value="Вход" name="enter">
 </form>
 </body>

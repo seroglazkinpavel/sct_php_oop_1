@@ -17,15 +17,29 @@ class Validator
         return $this->getErrors();
     }
 
-    //Проверка на пустоту поля
-    public function checkingForEmptiness($name, $email, $telephone, $date_of_birth, $SNILS)
+    function test_input($data)
     {
-        if ($name == '' || $email == '' || $telephone == '' || $date_of_birth == '' || $SNILS == '') {
+        $data = trim($data);  // Убрать ненужные символы (лишний пробел, табуляцию, символ новой строки)
+        $data = stripslashes($data); // Удалить обратную косую черту (\)
+        $data = htmlspecialchars($data); // преобразует специальные символы в объекты HTML
+        return $data;
+    }
+
+    //Проверка на пустоту поля
+    public function checkingForEmptiness($name = null, $email = null, $telephone = null, $date_of_birth = null, $SNILS = null, $series = null, $number = null, $gender = null)
+    {
+        if ($name == '' || $email == '' || $telephone == '') {
             $_SESSION['mistakes'] = 'Заполните пропущенные поля';
             header("Location: index.php");
             exit;
             return $_SESSION['mistakes'];
+            /*}elseif($date_of_birth == '' || $SNILS == '' || $series == '' || $number == '' || $gender == ''){
+                $_SESSION['empty'] = 'Заполните пропущенные поля';
+                header("Location: index_1.php");
+                exit;
+                return $_SESSION['empty'];*/
         }
+
     }
 
     // добавляет сообщение об ошибке в массив

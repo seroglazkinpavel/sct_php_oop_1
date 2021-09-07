@@ -5,8 +5,9 @@ use lib\Validator;
 use lib\ValidateName;
 use lib\ValidateEmail;
 use lib\ValidateTelephone;
-use lib\ValidateBirth;
-use lib\ValidateSnils;
+
+//use lib\ValidateBirth;
+//use lib\ValidateSnils;
 
 set_include_path(get_include_path() . PATH_SEPARATOR . 'lib');
 spl_autoload_extensions('.php');
@@ -15,37 +16,36 @@ spl_autoload_register();
 
 // если форма заполнена
 if (isset($_POST['enter'])) {
-    $name = htmlspecialchars(trim($_POST['name'] ?? false));
-    $email = htmlspecialchars(trim($_POST['email'] ?? false));
-    $telephone = htmlspecialchars(trim($_POST['telephone'] ?? false));
-    $date_of_birth = htmlspecialchars(trim($_POST['date_of_birth'] ?? false));
-    $SNILS = htmlspecialchars(trim($_POST['SNILS'] ?? false));
     $validator = new Validator();
-    $validator->checkingForEmptiness($name, $email, $telephone, $date_of_birth, $SNILS);
+    $_SESSION['form']['name'] = $name = $validator->test_input($_POST['name'] ?? false);
+    $_SESSION['form']['email'] = $email = $validator->test_input($_POST['email'] ?? false);
+    $_SESSION['form']['telephone'] = $telephone = $validator->test_input($_POST['telephone'] ?? false);
+
+    $validator->checkingForEmptiness($name, $email, $telephone);
 
     // создаем классы-валидаторы форм
-    $name = new ValidateName($_POST);
-    $email = new ValidateEmail($_POST);
-    $telephone = new ValidateTelephone($_POST);
-    $birth = new ValidateBirth($_POST);
-    $snils = new ValidateSnils($_POST);
+    $Name = new ValidateName($_POST);
+    $Email = new ValidateEmail($_POST);
+    $Telephone = new ValidateTelephone($_POST);
 
     // объединяем массив в строку для передачи обратно на форму
-    $errors1 = $name->check();
-    $errors2 = $email->check();
-    $errors3 = $telephone->check();
-    $errors4 = $birth->check();
-    $errors5 = $snils->check();
+    $errors1 = $Name->check();
+    $errors2 = $Email->check();
+    $errors3 = $Telephone->check();
 
     // из строк создаем массив используя разделитель
-    $errors = explode(',', "$errors1,$errors2,$errors3,$errors4,$errors5");
+    $errors = explode(',', "$errors1,$errors2,$errors3");
 
-    if ($errors[0] == '' && $errors[1] == '' && $errors[2] == '' && $errors[3] == '' && $errors[4] == '') {
-        $errors = 'Вы успешно прошли регистрацию!';
-        $_SESSION['user'] = $errors;
+    if ($errors[0] == '' && $errors[1] == '' && $errors[2] == '') {
+        /*$_SESSION['form']['name'] = $name;
+        $_SESSION['form']['email'] = $email;
+        $_SESSION['form']['telephone'] = $telephone;*/
+        header("Location: index_1.php");
+        exit;
     } else {
         $_SESSION['errors'] = $errors;
+        header("Location: index.php");
+        exit;
     }
-    header("Location: index.php");
-    exit;
+
 }
