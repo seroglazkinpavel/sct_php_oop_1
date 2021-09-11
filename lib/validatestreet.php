@@ -1,16 +1,16 @@
 <?php
 
 namespace lib;
-
 use lib\Validator;
 
 class ValidateStreet extends Validator
-{
-    const CODE_INVALID = 'Некорректное название улицы!';
-    const CODE_MAX_LEN = 'Длина название улицы не может превышать 60 или быть менне 3 символов!';
-    const CODE_MIN = 3;
-    const CODE_MAX = 60;
-    private $request = []; // массив значений формы
+{   
+	const CODE_EMPTY = 'Вы не ввели название улицы!';
+	const CODE_INVALID = 'Некорректное название улицы!';
+	const CODE_MAX_LEN = 'Длина название улицы не может превышать 60 или быть менне 3 символов!';   
+	const CODE_MIN = 3;
+	const CODE_MAX = 60;
+	private $request = []; // массив значений формы
 
     public function __construct(array $request)
     {
@@ -20,7 +20,8 @@ class ValidateStreet extends Validator
     public function validate(): array
     {
         $req = $this->request;
-        if ($this->isContainQuotes($req['street'])) $this->addError(self::CODE_INVALID);
+        if (mb_strlen($req['street']) == 0) $this->addError(self::CODE_EMPTY);
+        elseif ($this->isContainQuotes($req['street'])) $this->addError(self::CODE_INVALID);
         elseif (!preg_match("/^([a-zA-Z' -]|[а-яА-ЯЁёІіЇїҐґЄє' -])*$/", $req['street'])) $this->addError(self::CODE_INVALID);
         else {
             $nameLen = mb_strlen($req['street']);
@@ -29,5 +30,5 @@ class ValidateStreet extends Validator
             }
         }
         return $this->getErrors();
-    }
+    }  
 }

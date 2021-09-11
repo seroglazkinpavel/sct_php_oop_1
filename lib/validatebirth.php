@@ -1,7 +1,6 @@
 <?php
 
 namespace lib;
-
 use lib\Validator;
 
 class ValidateBirth extends Validator

@@ -1,14 +1,13 @@
 <?php
 
 namespace lib;
-
 use lib\Validator;
 
 class ValidateTelephone extends Validator
 {
     const CODE_EMPTY = 'Вы не ввели номер телефона!';
-    const CODE_INVALID = 'Некорректный номер телефона!';
-    const CODE_MAX_LEN = 'Длина номера телефона не может превышать 16 или быть менне 9 символов!';
+	const CODE_INVALID = 'Некорректный номер телефона!';
+	const CODE_MAX_LEN = 'Длина номера телефона не может превышать 16 или быть менне 9 символов!';
     private $request = []; // массив значений формы
 
     public function __construct(array $request)
@@ -29,5 +28,5 @@ class ValidateTelephone extends Validator
             }
         }
         return $this->getErrors();
-    }
+    }  
 }

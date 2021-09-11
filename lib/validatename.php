@@ -1,17 +1,16 @@
 <?php
 
 namespace lib;
-
 use lib\Validator;
 
 class ValidateName extends Validator
 {
     const CODE_EMPTY = 'Вы не ввели имя!';
-    const CODE_INVALID = 'Некорректное имя!';
-    const CODE_MAX_LEN = 'Длина имени не может превышать 60 или быть менне 3 символов!';
-    const CODE_MIN = 3;
-    const CODE_MAX = 60;
-    private $request = []; // массив значений формы
+	const CODE_INVALID = 'Некорректное имя!';
+	const CODE_MAX_LEN = 'Длина имени не может превышать 60 или быть менне 3 символов!';   
+	const CODE_MIN = 3;
+	const CODE_MAX = 60;
+	private $request = []; // массив значений формы
 
     public function __construct(array $request)
     {
@@ -33,6 +32,7 @@ class ValidateName extends Validator
                 $this->addError(self::CODE_MAX_LEN);
             }
         }
+
         return $this->getErrors();
-    }
+    }  
 }

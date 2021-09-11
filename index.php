@@ -41,10 +41,6 @@ session_start();
 <body>
 <form action="handler.php" method="post">
     <h3>Вход на сайт</h3>
-    <?php if (isset($_SESSION['mistakes'])): ?>
-        <p style="color:red;"><b>Заполните пропущенные поля!</b></p>
-        <?php unset ($_SESSION['mistakes']); ?>
-    <?php endif ?>
 
     <?php if (isset($_SESSION['errors'])): ?>
         <?php foreach ($_SESSION['errors'] as $error): ?>
@@ -62,6 +58,7 @@ session_start();
     <input type="text" name="telephone" id="telephone"
            value="<?php if (isset($_SESSION['form']['telephone'])) echo $_SESSION['form']['telephone'] ?>">
     <input type="submit" value="Вход" name="enter">
+
 </form>
 </body>
 </html>

@@ -41,8 +41,8 @@ session_start();
 <body>
 <form action="processing.php" method="post">
     <h3>Вход на сайт</h3>
-    <?php if (isset($_SESSION['empty'])): ?>
-        <p style="color:red;"><b>Заполните пропущенные поля!</b></p>
+   <?php if (isset($_SESSION['empty'])): ?>
+        <p style="color:red;"><b>Укажите пол!</b></p>
         <?php unset ($_SESSION['empty']); ?>
     <?php endif ?>
 
@@ -53,25 +53,21 @@ session_start();
         <?php unset ($_SESSION['errors']); ?>
     <?php endif ?>
     <label for="date_of_birth">Дата рождения ( Формат DD.MM.YYYY )</label>
-    <input type="text" name="date_of_birth" id="date_of_birth"
-           value="<?php if (isset($_SESSION['form']['date_of_birth'])) $_SESSION['form']['date_of_birth'] ?>">
+    <input type="text" name="date_of_birth" id="date_of_birth" value="<?php if (isset($_SESSION['form']['date_of_birth'])) $_SESSION['form']['date_of_birth'] ?>">           
     <label for="SNILS">СНИЛС</label>
-    <input type="text" name="SNILS" id="SNILS"
-           value="<?php if (isset($_SESSION['form']['SNILS'])) $_SESSION['form']['SNILS'] ?>">
+    <input type="text" name="SNILS" id="SNILS" value="<?php if (isset($_SESSION['form']['SNILS'])) $_SESSION['form']['SNILS'] ?>">           
     <label for="series">Серия паспорта</label>
-    <input type="text" name="series" id="series"
-           value="<?php if (isset($_SESSION['form']['series'])) $_SESSION['form']['series'] ?>">
-    <label for="number">Номер паспорта</label>
-    <input type="text" name="number" id="number"
-           value="<?php if (isset($_SESSION['form']['number'])) $_SESSION['form']['number'] ?>">
-    <label for="number">Пол</label>
-    <input type="radio" name="gender"
-        <?php if (isset($gender) && $gender == "Женски") echo "checked"; ?>
-           value="Женски">Женски
-    <input type="radio" name="gender"
-        <?php if (isset($gender) && $gender == "Мужской") echo "checked"; ?>
-           value="Мужской">Мужской
-    <input type="submit" value="Вход" name="enter">
+    <input type="text" name="series" id="series" value="<?php if (isset($_SESSION['form']['series'])) $_SESSION['form']['series'] ?>">           
+	<label for="number">Номер паспорта</label>
+    <input type="text" name="number" id="number" value="<?php if (isset($_SESSION['form']['number'])) $_SESSION['form']['number'] ?>">           
+	<label for="number">Пол</label>
+	<input type="radio" name="gender"
+	<?php if (isset($gender) && $gender=="Женски") echo "checked";?>
+	value="Женски">Женски
+	<input type="radio" name="gender"
+	<?php if (isset($gender) && $gender=="Мужской") echo "checked";?>
+	value="Мужской">Мужской
+	<input type="submit" value="Вход" name="enter">	
 </form>
 </body>
 </html>

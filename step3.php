@@ -17,7 +17,7 @@ spl_autoload_register();
 
 // если форма заполнена
 if (isset($_POST['entrance'])) {
-    $validator = new Validator();
+    $validator = new Validator($_POST);
     $countr = $validator->test_input($_POST['countr'] ?? false);
     $region = $validator->test_input($_POST['region'] ?? false);
     $city = $validator->test_input($_POST['city'] ?? false);
@@ -25,25 +25,7 @@ if (isset($_POST['entrance'])) {
     $house = $validator->test_input($_POST['house'] ?? false);
     $body = $validator->test_input($_POST['body'] ?? false);
     $flat = $validator->test_input($_POST['flat'] ?? false);
-    if ($countr == '' || $region == '' || $city == '' || $street == '' || $house == '' || $body == '' || $flat == '') {
-        $_SESSION['skipped'] = 'Заполните пропущенные поля';
-        header("Location: index_2.php");
-        exit;
-    }
-
-    //$validator -> checkingForEmptiness($date_of_birth, $SNILS, $series, $number, $gender);
-
-    // объединяем массив в строку для передачи обратно на форму
-    $errors1 = (new ValidateCountr($_POST))->check();
-    $errors2 = (new ValidateRegion($_POST))->check();
-    $errors3 = (new ValidateCity($_POST))->check();
-    $errors4 = (new ValidateStreet($_POST))->check();
-    $errors5 = (new ValidateHouse($_POST))->check();
-    $errors6 = (new ValidateBody($_POST))->check();
-    $errors7 = (new ValidateFlat($_POST))->check();
-
-    // из строк создаем массив используя разделитель
-    $errors = explode(',', "$errors1,$errors2,$errors3,$errors4,$errors5,$errors6,$errors7");
+    $errors = $validator->unification($_POST);
 
     if ($errors[0] == '' && $errors[1] == '' && $errors[2] == '' && $errors[3] == '' && $errors[4] == '' && $errors[5] == '' && $errors[6] == '') {
 

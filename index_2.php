@@ -41,10 +41,6 @@ session_start();
 <body>
 <form action="step3.php" method="post">
     <h3>Вход на сайт</h3>
-    <?php if (isset($_SESSION['skipped'])): ?>
-        <p style="color:red;"><b>Заполните пропущенные поля!</b></p>
-        <?php unset ($_SESSION['skipped']); ?>
-    <?php endif ?>
 
     <?php if (isset($_SESSION['errors'])): ?>
         <?php foreach ($_SESSION['errors'] as $error): ?>

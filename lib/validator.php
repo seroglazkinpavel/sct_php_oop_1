@@ -5,73 +5,118 @@ namespace lib;
 class Validator
 {
     private $errors = [];
+    private $request = []; // массив значений формы
+
+    public function __construct(array $request)
+    {
+        $this->request = $request;
+
+
+        $countr = $this->test_input($request['countr'] ?? false);
+        $region = $this->test_input($request['region'] ?? false);
+        $city = $this->test_input($request['city'] ?? false);
+        $street = $this->test_input($request['street'] ?? false);
+        $house = $this->test_input($request['house'] ?? false);
+        $body = $this->test_input($request['body'] ?? false);
+        $flat = $this->test_input($request['flat'] ?? false);
+    }
 
     /**
-     *
      * Проверяет значения на соответствие условию,
      * если условия нарушаются, помещает в массив $errors
      * сообщение об ошибке
      */
     public function validate(): array
     {
+
         return $this->getErrors();
     }
 
-    function test_input($data)
+    /**
+     * Убрать ненужные символы (лишний пробел, табуляцию, символ новой строки)
+     * Удалить обратную косую черту (\)
+     * Преобразует специальные символы в объекты HTML
+     */
+    public function test_input($data)
     {
-        $data = trim($data);  // Убрать ненужные символы (лишний пробел, табуляцию, символ новой строки)
-        $data = stripslashes($data); // Удалить обратную косую черту (\)
-        $data = htmlspecialchars($data); // преобразует специальные символы в объекты HTML
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
         return $data;
     }
 
-    //Проверка на пустоту поля
-    public function checkingForEmptiness($name = null, $email = null, $telephone = null, $date_of_birth = null, $SNILS = null, $series = null, $number = null, $gender = null)
+    /**
+     * объединяем массив в строку для передачи обратно на форму
+     * из строк создаем массив используя разделитель
+     */
+    public function unification($request)
     {
-        if ($name == '' || $email == '' || $telephone == '') {
-            $_SESSION['mistakes'] = 'Заполните пропущенные поля';
-            header("Location: index.php");
-            exit;
-            return $_SESSION['mistakes'];
-            /*}elseif($date_of_birth == '' || $SNILS == '' || $series == '' || $number == '' || $gender == ''){
-                $_SESSION['empty'] = 'Заполните пропущенные поля';
-                header("Location: index_1.php");
-                exit;
-                return $_SESSION['empty'];*/
+        if (isset($request['name']) && isset($request['email']) && isset($request['telephone'])) {
+            $errors1 = (new ValidateName($_POST))->check();
+            $errors2 = (new ValidateEmail($_POST))->check();
+            $errors3 = (new ValidateTelephone($_POST))->check();
+            $errors = explode(',', "$errors1,$errors2,$errors3");
         }
 
-    }
+        if (isset($request['date_of_birth']) && isset($request['SNILS']) && isset($request['series']) && isset($request['number'])) {
+            $errors1 = (new ValidateBirth($_POST))->check();
+            $errors2 = (new ValidateSnils($_POST))->check();
+            $errors3 = (new ValidateSeries($_POST))->check();
+            $errors4 = (new ValidateNumber($_POST))->check();
+            //$errors5 = (new ValidateGender($_POST)) -> check();// не мог понять почему с ним не работает(сам валидатор new ValidateNumber($_POST)) -> check() работает)
+            //var_dump($errors5);exit;
+            $errors = explode(',', "$errors1,$errors2,$errors3,$errors4");
+        }
 
-    // добавляет сообщение об ошибке в массив
+        if (isset($request['countr']) && isset($request['region']) && isset($request['city']) && isset($request['street']) && isset($request['house']) && isset($request['body']) && isset($request['flat'])) {
+            $errors1 = (new ValidateCountr($_POST))->check();
+            $errors2 = (new ValidateRegion($_POST))->check();
+            $errors3 = (new ValidateCity($_POST))->check();
+            $errors4 = (new ValidateStreet($_POST))->check();
+            $errors5 = (new ValidateHouse($_POST))->check();
+            $errors6 = (new ValidateBody($_POST))->check();
+            $errors7 = (new ValidateFlat($_POST))->check();
+            $errors = explode(',', "$errors1,$errors2,$errors3,$errors4,$errors5,$errors6,$errors7");
+        }
+        return $errors;
+	}	
+	
+    /**
+	* добавляет сообщение об ошибке в массив
+	*/
     public function addError($message)
     {
-        $this->errors[] = $message;
+        $this -> errors[] = $message;
     }
 
-    // возвращает список всех найденных ошибок
+    /**
+	* возвращает список всех найденных ошибок
+	*/
     public function getErrors()
     {
-        return $this->errors;
+        return $this -> errors;
     }
 
-    /*
-    * проверяем на ошибки
-    * объединяем массив в строку для передачи обратно на форму
-     */
-    public function check()
-    {
-        $errors = $this->validate();
-        $errors = join(',', $errors);
+	/**
+	* проверяем на ошибки
+	* объединяем массив в строку для передачи обратно на форму
+	 */
+	 public function check()
+     {
+		 $errors = $this -> validate();
+		 $errors = join(',',$errors);
         return $errors;
     }
 
-    // указывает на присутствие кавычек (если они есть указываем true, иначе false)
-    protected function isContainQuotes($string)
+	/**
+	* указывает на присутствие кавычек (если они есть указываем true, иначе false)
+	*/
+	protected function isContainQuotes($string)
     {
-        $array = array("\"", "'", "`", "&quot;", "&apos;");
-        foreach ($array as $value) {
-            if (strpos($string, $value) !== false) return true;
-        }
-        return false;
-    }
+		$array = array("\"", "'", "`", "&quot;", "&apos;");
+		foreach ($array as $value) {
+			if(strpos($string, $value) !== false) return true;
+		}
+		return false;
+	}
 }

@@ -1,12 +1,11 @@
 <?php
 
 namespace lib;
-
 use lib\Validator;
 
 class ValidateSnils extends Validator
 {
-    private $request = []; // массив значений формы
+	private $request = []; // массив значений формы
 
     public function __construct(array $request)
     {
@@ -23,15 +22,12 @@ class ValidateSnils extends Validator
 
         if (!$snils) {
             $error_code = 1;
-            //$error_message = 'СНИЛС пуст';
             $this->addError('СНИЛС пуст');
         } elseif (preg_match('/[^0-9]/', $snils)) {
             $error_code = 2;
-            //$error_message = 'СНИЛС может состоять только из цифр';
             $this->addError('СНИЛС может состоять только из цифр');
         } elseif (strlen($snils) !== 11) {
             $error_code = 3;
-            //$error_message = 'СНИЛС может состоять только из 11 цифр';
             $this->addError('СНИЛС может состоять только из 11 цифр');
         } else {
             $sum = 0;
@@ -51,13 +47,9 @@ class ValidateSnils extends Validator
                 $result = true;
             } else {
                 $error_code = 4;
-                //$error_message = 'Неправильное контрольное число';
                 $this->addError('Неправильное контрольное число');
             }
         }
-
-        //return $result;
-        //$this -> addError($result);
         return $this->getErrors();
     }
-}	
+}
