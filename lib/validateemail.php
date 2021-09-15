@@ -20,15 +20,16 @@ class ValidateEmail extends Validator
 
     public function validate(): array
     {
+
         $req = $this->request;
         if (isset($req['email'])) {
-            if (empty($req['email'])) {
-                $this->addError(self::CODE_EMPTY);
-            } elseif (mb_strlen($req['email']) > self::MAX_LEN) {
-                $this->addError(self::CODE_MAX_LEN);
-            } else {
-                (!preg_match("/^[a-z0-9_][a-z0-9\._-]*@([a-z0-9]+([a-z0-9-]*[a-z0-9]+)*\.)+[a-z]+$/i", $req['email']));
-                $this->addError(self::CODE_INVALID);
+            if (empty($req['email'])) $this->addError(self::CODE_EMPTY);
+            else {
+                if (mb_strlen($req['email']) > self::MAX_LEN) $this->addError(self::CODE_MAX_LEN);
+                else {
+                    $pattern = "/^[a-z0-9_][a-z0-9\._-]*@([a-z0-9]+([a-z0-9-]*[a-z0-9]+)*\.)+[a-z]+$/i";
+                    if (!preg_match($pattern, ($req['email']))) $this->addError(self::CODE_INVALID);
+                }
             }
         }
         return $this->getErrors();
