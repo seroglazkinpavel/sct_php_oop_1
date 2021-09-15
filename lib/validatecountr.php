@@ -21,17 +21,26 @@ class ValidateCountr extends Validator
     public function validate(): array
     {
         $req = $this->request;
-        if (mb_strlen($req['countr']) == 0) $this->addError(self::CODE_EMPTY);
-        elseif ($this->isContainQuotes($req['countr'])) $this->addError(self::CODE_INVALID);
-        elseif (!preg_match("/^([a-zA-Z' -]|[а-яА-ЯЁёІіЇїҐґЄє' -])*$/", $req['countr'])) $this->addError(self::CODE_INVALID);
-        else {
-            $nameLen = mb_strlen($req['countr']);
-            if ($nameLen < self::CODE_MIN or $nameLen > self::CODE_MAX) {
-                $this->addError(self::CODE_MAX_LEN);
+        if (isset($req['countr'])) {
+            if (empty($req['countr'])) {
+                $this->addError(self::CODE_EMPTY);
+            } elseif ($this->isContainQuotes($req['countr'])) {
+                $this->addError(self::CODE_INVALID);
+            } elseif (!preg_match("/^([a-zA-Z' -]|[а-яА-ЯЁёІіЇїҐґЄє' -])*$/", $req['countr'])) {
+                $this->addError(self::CODE_INVALID);
+            } else {
+                $nameLen = mb_strlen($req['countr']);
+                if ($nameLen < self::CODE_MIN or $nameLen > self::CODE_MAX) {
+                    $this->addError(self::CODE_MAX_LEN);
+                }
             }
         }
-
         return $this->getErrors();
     }
 
+    public function check()
+    {
+        $errors = join(',', $this->validate());
+        return $errors;
+    }
 }

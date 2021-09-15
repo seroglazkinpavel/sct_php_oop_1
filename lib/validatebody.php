@@ -18,8 +18,19 @@ class ValidateBody extends Validator
     public function validate(): array
     {
         $req = $this->request;
-        if (mb_strlen($req['body']) == 0) $this->addError(self::CODE_EMPTY);
-        elseif (!preg_match("/^\d+$/", $req['body'])) $this->addError(self::CODE_INVALID);
+        if (isset($req['body'])) {
+            if (empty($req['body'])) {
+                $this->addError(self::CODE_EMPTY);
+            } elseif (!preg_match("/^\d+$/", $req['body'])) {
+                $this->addError(self::CODE_INVALID);
+            }
+        }
         return $this->getErrors();
+    }
+
+    public function check()
+    {
+        $errors = join(',', $this->validate());
+        return $errors;
     }
 }

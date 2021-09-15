@@ -21,14 +21,24 @@ class ValidateCity extends Validator
     public function validate(): array
     {
         $req = $this->request;
-        if (mb_strlen($req['city']) == 0) $this->addError(self::CODE_EMPTY);
-        elseif (!preg_match("/^([a-z]|[а-я])*$/iu", $req['city'])) $this->addError(self::CODE_INVALID);
-        else {
-            $nameLen = mb_strlen($req['city']);
-            if ($nameLen < self::CODE_MIN or $nameLen > self::CODE_MAX) {
-                $this->addError(self::CODE_MAX_LEN);
+        if (isset($req['city'])) {
+            if (empty($req['city'])) {
+                $this->addError(self::CODE_EMPTY);
+            } elseif (!preg_match("/^([a-z]|[а-я])*$/iu", $req['city'])) {
+                $this->addError(self::CODE_INVALID);
+            } else {
+                $nameLen = mb_strlen($req['city']);
+                if ($nameLen < self::CODE_MIN or $nameLen > self::CODE_MAX) {
+                    $this->addError(self::CODE_MAX_LEN);
+                }
             }
         }
         return $this->getErrors();
+    }
+
+    public function check()
+    {
+        $errors = join(',', $this->validate());
+        return $errors;
     }
 }

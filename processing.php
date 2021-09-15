@@ -1,18 +1,14 @@
 <?php
- session_start();
- use lib\Validator;
- use lib\ValidateBirth;
- use lib\ValidateSnils;
- use lib\ValidateSeries;
- use lib\ValidateNumber;
- use lib\ValidateGender;
+session_start();
 
- set_include_path(get_include_path().PATH_SEPARATOR.'lib');
-    spl_autoload_extensions('.php');
-    spl_autoload_register();
+use lib\Validator;
+
+set_include_path(get_include_path() . PATH_SEPARATOR . 'lib');
+spl_autoload_extensions('.php');
+spl_autoload_register();
 
 /**
-* если форма заполнена
+ * если форма заполнена
  */
 if (isset($_POST['enter'])) {
     $validator = new Validator($_POST);
@@ -21,15 +17,10 @@ if (isset($_POST['enter'])) {
     $series = $validator->test_input($_POST['series'] ?? false);
     $number = $validator->test_input($_POST['number'] ?? false);
     $gender = $validator->test_input($_POST['gender'] ?? false);
-    if ($gender == '') {
-        $_SESSION['empty'] = 'Укажите пол';
-        header("Location: index_1.php");
-        exit;
-    }
-    $errors = $validator->unification($_POST);
 
-    if ($errors[0] == '' && $errors[1] == '' && $errors[2] == '' && $errors[3] == '') {
-
+    $errors = $validator->validate();
+    if ($gender == '') $errors[] = 'Укажите пол';
+    if (empty($errors)) {
         $_SESSION['form']['date_of_birth'] = $date_of_birth;
         $_SESSION['form']['SNILS'] = $SNILS;
         $_SESSION['form']['series'] = $series;

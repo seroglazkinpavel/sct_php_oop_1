@@ -1,6 +1,7 @@
 <?php
 
 namespace lib;
+
 use lib\Validator;
 
 class ValidateHouse extends Validator
@@ -17,8 +18,19 @@ class ValidateHouse extends Validator
     public function validate(): array
     {
         $req = $this->request;
-        if (mb_strlen($req['house']) == 0) $this->addError(self::CODE_EMPTY);
-        if (!preg_match("/^\d+$/", $req['house'])) $this->addError(self::CODE_INVALID);
+        if (isset($req['house'])) {
+            if (empty($req['house'])) {
+                $this->addError(self::CODE_EMPTY);
+            } elseif (!preg_match("/^\d+$/", $req['house'])) {
+                $this->addError(self::CODE_INVALID);
+            }
+        }
         return $this->getErrors();
+    }
+
+    public function check()
+    {
+        $errors = join(',', $this->validate());
+        return $errors;
     }
 }

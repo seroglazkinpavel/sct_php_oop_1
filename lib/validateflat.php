@@ -18,8 +18,19 @@ class ValidateFlat extends Validator
     public function validate(): array
     {
         $req = $this->request;
-        if (mb_strlen($req['flat']) == 0) $this->addError(self::CODE_EMPTY);
-        elseif (!preg_match("/^\d+$/", $req['flat'])) $this->addError(self::CODE_INVALID);
+        if (isset($req['flat'])) {
+            if (empty($req['flat'])) {
+                $this->addError(self::CODE_EMPTY);
+            } elseif (!preg_match("/^\d+$/", $req['flat'])) {
+                $this->addError(self::CODE_INVALID);
+            }
+        }
         return $this->getErrors();
+    }
+
+    public function check()
+    {
+        $errors = join(',', $this->validate());
+        return $errors;
     }
 }

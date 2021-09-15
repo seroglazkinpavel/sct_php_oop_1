@@ -27,6 +27,7 @@ session_start();
 
         td {
             padding-left: 10px;
+            border: 1px solid grey;
         }
 
         a {
@@ -42,7 +43,7 @@ session_start();
 </head>
 <body>
 <div>
-    <table border=1>
+    <table>
         <tr>
             <th>Наименование поля</th>
             <th>Значение</th>
@@ -54,72 +55,58 @@ session_start();
         <tr>
             <td>Email</td>
             <td><?= $_SESSION['form']['email'] ?></td>
-            </td>
         </tr>
         <tr>
             <td>Телефон</td>
             <td><?= $_SESSION['form']['telephone'] ?></td>
-            </td>
         </tr>
         <tr>
             <td>Дата рождения</td>
             <td><?= $_SESSION['form']['date_of_birth'] ?></td>
-            </td>
         </tr>
         <tr>
             <td>СНИЛС</td>
             <td><?= $_SESSION['form']['SNILS'] ?></td>
-            </td>
         </tr>
         <tr>
             <td>Серия паспорта</td>
             <td><?= $_SESSION['form']['series'] ?></td>
-            </td>
         </tr>
         <tr>
             <td>Номер паспорта</td>
             <td><?= $_SESSION['form']['number'] ?></td>
-            </td>
         </tr>
         <tr>
             <td>Пол</td>
             <td><?= $_SESSION['form']['number'] ?></td>
-            </td>
         </tr>
         <tr>
             <td>Cтрана</td>
             <td><?= $_SESSION['form']['countr'] ?></td>
-            </td>
         </tr>
         <tr>
             <td>Регион</td>
             <td><?= $_SESSION['form']['region'] ?></td>
-            </td>
         </tr>
         <tr>
             <td>Город</td>
             <td><?= $_SESSION['form']['city'] ?></td>
-            </td>
         </tr>
         <tr>
             <td>Улица</td>
             <td><?= $_SESSION['form']['street'] ?></td>
-            </td>
         </tr>
         <tr>
             <td>house</td>
             <td><?= $_SESSION['form']['house'] ?></td>
-            </td>
         </tr>
         <tr>
             <td>body</td>
             <td><?= $_SESSION['form']['body'] ?></td>
-            </td>
         </tr>
         <tr>
             <td>flat</td>
             <td><?= $_SESSION['form']['flat'] ?></td>
-            </td>
         </tr>
         <? unset ($_SESSION['form']); ?>
     </table>

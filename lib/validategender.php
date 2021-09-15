@@ -1,6 +1,7 @@
 <?php
 
 namespace lib;
+
 use lib\Validator;
 
 class ValidateGender extends Validator
@@ -17,7 +18,17 @@ class ValidateGender extends Validator
     public function validate(): array
     {
         $req = $this->request;
-        if (mb_strlen($req['gender']) == 0) $this->addError(self::CODE_EMPTY);
+        if (isset($req['gender'])) {
+            if (empty($req['gender'])) {
+                $this->addError(self::CODE_EMPTY);
+            }
+        }
         return $this->getErrors();
+    }
+
+    public function check()
+    {
+        $errors = join(',', $this->validate());
+        return $errors;
     }
 }
