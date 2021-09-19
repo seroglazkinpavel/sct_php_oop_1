@@ -2,6 +2,7 @@
 session_start();
 const CODE_FEMALE = 'Женский';
 const CODE_MALE = 'Мужской';
+$back = $_SERVER["HTTP_REFERER"];
 ?>
 
 <!DOCTYPE html>
@@ -9,36 +10,8 @@ const CODE_MALE = 'Мужской';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
     <title>Вход на сайт</title>
-    <style>
-        body {
-            background: #f0f0f0;
-        }
-
-        form {
-            margin: 100px auto;
-            text-align: center;
-            border: 1px solid #dee;
-            padding: 10px;
-            width: 300px;
-            background: #fff;
-        }
-
-        label, input[type="submit"] {
-            display: block;
-            margin: 5px;
-        }
-
-        input[type="submit"] {
-            margin: 10px auto;
-        }
-
-        .form-error {
-            padding: 5px;
-            color: red;
-        }
-    </style>
 </head>
 <body>
 <form action="processing.php" method="post">
@@ -52,16 +25,16 @@ const CODE_MALE = 'Мужской';
     <?php endif ?>
     <label for="date_of_birth">Дата рождения ( Формат DD.MM.YYYY )</label>
     <input type="text" name="date_of_birth" id="date_of_birth"
-           value="<?php if (isset($_SESSION['form']['date_of_birth'])) $_SESSION['form']['date_of_birth'] ?>">
+           value="<?php if (isset($_SESSION['form']['date_of_birth'])) echo $_SESSION['form']['date_of_birth'] ?>">
     <label for="SNILS">СНИЛС</label>
     <input type="text" name="SNILS" id="SNILS"
-           value="<?php if (isset($_SESSION['form']['SNILS'])) $_SESSION['form']['SNILS'] ?>">
+           value="<?php if (isset($_SESSION['form']['SNILS'])) echo $_SESSION['form']['SNILS'] ?>">
     <label for="series">Серия паспорта</label>
     <input type="text" name="series" id="series"
-           value="<?php if (isset($_SESSION['form']['series'])) $_SESSION['form']['series'] ?>">
+           value="<?php if (isset($_SESSION['form']['series'])) echo $_SESSION['form']['series'] ?>">
     <label for="number">Номер паспорта</label>
     <input type="text" name="number" id="number"
-           value="<?php if (isset($_SESSION['form']['number'])) $_SESSION['form']['number'] ?>">
+           value="<?php if (isset($_SESSION['form']['number'])) echo $_SESSION['form']['number'] ?>">
     <label for="number">Пол</label>
     <input type="radio" name="gender"
         <?php if (isset($gender) && $gender == self::CODE_FEMALE) echo "checked"; ?>
@@ -70,7 +43,7 @@ const CODE_MALE = 'Мужской';
         <?php if (isset($gender) && $gender == self::CODE_MALE) echo "checked"; ?>
            value="Мужской">Мужской
     <input type="submit" value="Вход" name="enter">
-
+    <input type="button" value="Назад" onclick="location='<?php echo $back ?>' "/>
 </form>
 </body>
 </html>

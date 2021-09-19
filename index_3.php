@@ -1,5 +1,7 @@
 <?php
 session_start();
+$back = $_SERVER["HTTP_REFERER"];
+require_once 'config.php';
 ?>
 
 <!DOCTYPE html>
@@ -7,42 +9,20 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link rel="stylesheet" href="style.css">
     <title>Вход на сайт</title>
-    <style>
-        body {
-            background: #f0f0f0;
-        }
-
-        div {
-            margin: 40px auto;
-            width: 600px;
-        }
-
-        table {
-            width: 600px;
-            border: 1px solid grey;
-            background: #fff;
-        }
-
-        td {
-            padding-left: 10px;
-            border: 1px solid grey;
-        }
-
-        a {
-            font: 18px Open Sans;
-            /*font-weight: Regular;*/
-
-            display: block;
-            margin-top: 20px;
-            text-decoration: none;
-
-        }
-    </style>
 </head>
 <body>
+
 <div>
+    <?php if (isset($_SESSION['result'])) : ?>
+        <p class="result"><strong><i><?= ($_SESSION['result']); ?></i></strong></p>
+        <?php unset($_SESSION['result']); ?>
+    <?php endif; ?>
+    <?php if (isset($_SESSION['error'])) : ?>
+        <p class="result1"><strong><i><?= ($_SESSION['error']); ?></i></strong></p>
+        <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
     <table>
         <tr>
             <th>Наименование поля</th>
@@ -78,7 +58,7 @@ session_start();
         </tr>
         <tr>
             <td>Пол</td>
-            <td><?= $_SESSION['form']['number'] ?></td>
+            <td><?= $_SESSION['form']['gender'] ?></td>
         </tr>
         <tr>
             <td>Cтрана</td>
@@ -97,21 +77,21 @@ session_start();
             <td><?= $_SESSION['form']['street'] ?></td>
         </tr>
         <tr>
-            <td>house</td>
+            <td>Дом</td>
             <td><?= $_SESSION['form']['house'] ?></td>
         </tr>
         <tr>
-            <td>body</td>
+            <td>Корпус</td>
             <td><?= $_SESSION['form']['body'] ?></td>
         </tr>
         <tr>
-            <td>flat</td>
+            <td>Квартира</td>
             <td><?= $_SESSION['form']['flat'] ?></td>
         </tr>
-        <? unset ($_SESSION['form']); ?>
     </table>
+    <input style="margin-top:10px;" type="button" value="Назад" onclick="location='<?php echo $back ?>' "/>
+    <a href="index_3.php/?page=send">Отправить в бд</a>
     <a href="index.php">Ссылка на шаг 1</a>
 </div>
-
 </body>
 </html>

@@ -7,36 +7,8 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
     <title>Вход на сайт</title>
-    <style>
-        body {
-            background: #f0f0f0;
-        }
-
-        form {
-            margin: 100px auto;
-            text-align: center;
-            border: 1px solid #dee;
-            padding: 10px;
-            width: 300px;
-            background: #fff;
-        }
-
-        label, input[type="submit"] {
-            display: block;
-            margin: 5px;
-        }
-
-        input[type="submit"] {
-            margin: 10px auto;
-        }
-
-        .form-error {
-            padding: 5px;
-            color: red;
-        }
-    </style>
 </head>
 <body>
 <form action="handler.php" method="post">
