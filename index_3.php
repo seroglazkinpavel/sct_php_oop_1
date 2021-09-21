@@ -1,6 +1,6 @@
 <?php
 session_start();
-$back = $_SERVER["HTTP_REFERER"];
+//$back = $_SERVER["HTTP_REFERER"];
 require_once 'config.php';
 ?>
 
@@ -15,14 +15,14 @@ require_once 'config.php';
 <body>
 
 <div>
-    <?php if (isset($_SESSION['result'])) : ?>
-        <p class="result"><strong><i><?= ($_SESSION['result']); ?></i></strong></p>
-        <?php unset($_SESSION['result']); ?>
-    <?php endif; ?>
-    <?php if (isset($_SESSION['error'])) : ?>
-        <p class="result1"><strong><i><?= ($_SESSION['error']); ?></i></strong></p>
-        <?php unset($_SESSION['error']); ?>
-    <?php endif; ?>
+	<?php if (isset($_SESSION['result'])) : ?>		
+		<p class="result"><strong><i><?=($_SESSION['result']);?></i></strong></p>
+	<?php unset($_SESSION['result']); ?>
+	<?php endif; ?>
+	<?php if (isset($_SESSION['error'])) : ?>
+		<p class="result1"><strong><i><?=($_SESSION['error']);?></i></strong></p>
+		<?php unset($_SESSION['error']); ?>
+	<?php endif; ?>
     <table>
         <tr>
             <th>Наименование поля</th>
@@ -87,11 +87,11 @@ require_once 'config.php';
         <tr>
             <td>Квартира</td>
             <td><?= $_SESSION['form']['flat'] ?></td>
-        </tr>
+        </tr>		
     </table>
-    <input style="margin-top:10px;" type="button" value="Назад" onclick="location='<?php echo $back ?>' "/>
-    <a href="index_3.php/?page=send">Отправить в бд</a>
-    <a href="index.php">Ссылка на шаг 1</a>
+	<input style="margin-top:10px;" type="button" value="Назад" onclick="location='<?php echo $_SESSION['back'] ?>' "/>
+	<a href="index_3.php/?page=send">Отправить в бд</a>	
+    <a href="index.php">Ссылка на шаг 1</a>	
 </div>
 </body>
 </html>

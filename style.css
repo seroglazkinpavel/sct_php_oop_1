@@ -17,16 +17,16 @@ label, input[type="submit"] {
 }
 
 input[type="submit"] {
-    /* margin-left: 70px ;
-     margin-top: 20px ;*/
-    margin: 10px auto;
+   /* margin-left: 70px ;
+	margin-top: 20px ;*/
+	margin: 10px auto;
 }
 
 input[type="button"] {
-    /*float: right;
-     margin-top: -27px ;
+	/*float: right;
+	 margin-top: -27px ;
     margin-right: 70px ;*/
-    margin: 0px auto;
+	margin: 0px auto;
 }
 
 .form-error {
@@ -40,15 +40,15 @@ div {
 }
 
 div .result {
-    color: green;
-    text-align: center;
-    font: 24px Open Sans;
+	color:green;
+	text-align: center;
+	font: 24px Open Sans;
 }
 
 div .result1 {
-    color: red;
-    text-align: center;
-    font: 24px Open Sans;
+	color:red;
+	text-align: center;
+	font: 24px Open Sans;
 }
 
 table {

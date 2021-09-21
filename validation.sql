@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Сен 19 2021 г., 19:46
+-- Время создания: Сен 21 2021 г., 19:26
 -- Версия сервера: 10.3.22-MariaDB
 -- Версия PHP: 7.1.33
 
@@ -28,15 +28,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `address` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `address_reg_id` int(10) UNSIGNED NOT NULL,
   `country` varchar(255) NOT NULL,
   `region` varchar(255) NOT NULL,
   `city` varchar(255) NOT NULL,
   `street` varchar(255) NOT NULL,
   `house` varchar(5) NOT NULL,
   `body` varchar(5) NOT NULL,
-  `flat` varchar(10) NOT NULL,
-  `id_user` int(10) UNSIGNED NOT NULL
+  `flat` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -52,7 +51,8 @@ CREATE TABLE `passport` (
   `series` varchar(20) NOT NULL,
   `number` varchar(10) NOT NULL,
   `gender` varchar(10) NOT NULL,
-  `id_user` int(10) UNSIGNED NOT NULL
+  `id_user` int(10) UNSIGNED NOT NULL,
+  `address_reg_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -76,7 +76,7 @@ CREATE TABLE `user` (
 -- Индексы таблицы `address`
 --
 ALTER TABLE `address`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`address_reg_id`);
 
 --
 -- Индексы таблицы `passport`
@@ -100,19 +100,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT для таблицы `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `address_reg_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT для таблицы `passport`
 --
 ALTER TABLE `passport`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=358;
+  MODIFY `id_user` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=374;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
