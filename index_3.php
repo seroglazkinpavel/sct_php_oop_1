@@ -1,6 +1,6 @@
 <?php
 session_start();
-//$back = $_SERVER["HTTP_REFERER"];
+
 require_once 'config.php';
 ?>
 
@@ -88,8 +88,8 @@ require_once 'config.php';
             <td>Квартира</td>
             <td><?= $_SESSION['form']['flat'] ?></td>
         </tr>		
-    </table>
-	<input style="margin-top:10px;" type="button" value="Назад" onclick="location='<?php echo $_SESSION['back'] ?>' "/>
+    </table>	
+	<button class="back"><a href="index_2.php">Назад</a></button>
 	<a href="index_3.php/?page=send">Отправить в бд</a>	
     <a href="index.php">Ссылка на шаг 1</a>	
 </div>

@@ -2,7 +2,7 @@
 session_start();
 const CODE_FEMALE = 'Женский';
 const CODE_MALE = 'Мужской';
-$_SESSION['back'] = $_SERVER["HTTP_REFERER"];
+
 ?>
 
 <!DOCTYPE html>
@@ -42,8 +42,8 @@ $_SESSION['back'] = $_SERVER["HTTP_REFERER"];
     <input type="radio" name="gender"
         <?php if (isset($gender) && $gender == self::CODE_MALE) echo "checked"; ?>
            value="Мужской">Мужской
-    <input type="submit" value="Вход" name="enter">
-    <input type="button" value="Назад" onclick="location='<?php echo $_SESSION['back'] ?>' "/>
+    <input type="submit" value="Вход" name="enter">    
+	<button class="back"><a href="/">Назад</a></button>
 </form>
 </body>
 </html>

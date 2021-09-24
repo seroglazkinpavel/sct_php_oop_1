@@ -1,6 +1,6 @@
 <?php
 session_start();
-//$back = $_SERVER["HTTP_REFERER"];
+
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +43,7 @@ session_start();
     <input type="text" name="flat" id="flat"
            value="<?php if (isset($_SESSION['form']['flat'])) echo $_SESSION['form']['flat'] ?>">
     <input type="submit" value="Вход" name="entrance">
-	<input type="button" value="Назад" onclick="location='<?php echo $_SESSION['back'] ?>' "/>
+	<button class="back"><a href="index_1.php">Назад</a></button>
 </form>
 </body>
 </html>

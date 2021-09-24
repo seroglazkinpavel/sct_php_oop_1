@@ -55,6 +55,7 @@ table {
     width: 600px;
     border: 1px solid grey;
     background: #fff;
+	margin-bottom: 10px;
 }
 
 td {
@@ -70,3 +71,6 @@ a {
 
 }
 
+button.back a {
+	margin: 0;
+}
