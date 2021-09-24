@@ -43,7 +43,7 @@ session_start();
     <input type="text" name="flat" id="flat"
            value="<?php if (isset($_SESSION['form']['flat'])) echo $_SESSION['form']['flat'] ?>">
     <input type="submit" value="Вход" name="entrance">
-	<button class="back"><a href="index_1.php">Назад</a></button>
+    <button class="back"><a href="index_1.php">Назад</a></button>
 </form>
 </body>
 </html>
