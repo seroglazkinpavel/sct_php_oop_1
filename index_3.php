@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 require_once 'config.php';
 ?>
 
@@ -13,16 +12,15 @@ require_once 'config.php';
     <title>Вход на сайт</title>
 </head>
 <body>
-
 <div>
-	<?php if (isset($_SESSION['result'])) : ?>		
-		<p class="result"><strong><i><?=($_SESSION['result']);?></i></strong></p>
-	<?php unset($_SESSION['result']); ?>
-	<?php endif; ?>
-	<?php if (isset($_SESSION['error'])) : ?>
-		<p class="result1"><strong><i><?=($_SESSION['error']);?></i></strong></p>
-		<?php unset($_SESSION['error']); ?>
-	<?php endif; ?>
+    <?php if (isset($_SESSION['result'])) : ?>		
+	<p class="result"><strong><i><?=($_SESSION['result']);?></i></strong></p>
+    <?php unset($_SESSION['result']); ?>
+    <?php endif; ?>
+    <?php if (isset($_SESSION['error'])) : ?>
+	<p class="result1"><strong><i><?=($_SESSION['error']);?></i></strong></p>
+	<?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
     <table>
         <tr>
             <th>Наименование поля</th>
@@ -89,8 +87,8 @@ require_once 'config.php';
             <td><?= $_SESSION['form']['flat'] ?></td>
         </tr>		
     </table>	
-	<button class="back"><a href="index_2.php">Назад</a></button>
-	<a href="index_3.php/?page=send">Отправить в бд</a>	
+    <button class="back"><a href="index_2.php">Назад</a></button>
+    <a href="index_3.php/?page=send">Отправить в бд</a>	
     <a href="index.php">Ссылка на шаг 1</a>	
 </div>
 </body>
